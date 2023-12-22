@@ -1,1 +1,0 @@
-export 'pallete.dart';

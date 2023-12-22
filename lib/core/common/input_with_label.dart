@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+
+import '../core.dart';
+
+class InputWithLabel extends StatelessWidget {
+  final String label;
+  const InputWithLabel({super.key, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(color: Palette.text_grey, fontSize: 18),
+        ),
+        TextFormField(
+          cursorColor: Palette.dark_primaryColor,
+        ),
+      ],
+    );
+  }
+}

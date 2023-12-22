@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'theme/theme.dart';
+import 'package:stema/features/auth/view/auth_screen.dart';
+import 'core/core.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'STEMA',
       theme: Palette.darkModeAppTheme,
-      home: const SizedBox(),
+      home: const AuthScreen(),
     );
   }
 }
