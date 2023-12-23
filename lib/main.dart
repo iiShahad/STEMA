@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:stema/features/auth/view/auth_screen.dart';
-import 'core/core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'core/core.dart';
+import 'features/auth/view/auth_screen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(
+    url: SupabaseConstants.url,
+    anonKey: SupabaseConstants.anon,
+  );
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

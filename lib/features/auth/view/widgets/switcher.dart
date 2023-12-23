@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:stema/core/theme/pallete.dart';
+import '/core/theme/pallete.dart';
 
 class Switcher extends StatelessWidget {
   final VoidCallback onTap;

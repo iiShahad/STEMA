@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:stema/core/core.dart';
-import 'package:stema/features/auth/view/widgets/signin_form.dart';
-import 'package:stema/features/auth/view/widgets/signup_form.dart';
-import 'package:stema/features/auth/view/widgets/switcher.dart';
+import 'package:stema/features/auth/repository/auth_repository.dart';
+import '/core/core.dart';
+import './widgets/auth_widgets.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -29,13 +29,16 @@ class _AuthScreenState extends State<AuthScreen> {
                   const SizedBox(height: 70),
                   isSignin ? const SignInForm() : const SignUpForm(),
                   const SizedBox(height: 20),
-                  Switcher(
-                    isSignin: isSignin,
-                    onTap: () {
-                      setState(() {
-                        isSignin = !isSignin;
-                      });
-                    },
+                  Consumer(
+                    builder: (context, ref, child) => Switcher(
+                      isSignin: isSignin,
+                      onTap: () {
+                        ref.read(authRepositoryProvider).signout();
+                        setState(() {
+                          isSignin = !isSignin;
+                        });
+                      },
+                    ),
                   )
                 ],
               ),

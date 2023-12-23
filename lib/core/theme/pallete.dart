@@ -47,7 +47,7 @@ class Palette {
     errorStyle: const TextStyle(color: Colors.red),
 
     // Content padding
-    contentPadding: const EdgeInsets.only(bottom: 20),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
   );
 
   static final ElevatedButtonThemeData _elevatedButtonThemeData =

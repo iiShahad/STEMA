@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stema/features/auth/repository/auth_repository.dart';
 import '../../../../core/common/input_with_label.dart';
 
 class SignInForm extends StatelessWidget {
@@ -17,13 +19,19 @@ class SignInForm extends StatelessWidget {
               const SizedBox(height: 20),
               const InputWithLabel(label: "Password"),
               const SizedBox(height: 50),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(constraints.maxWidth * 0.25, 50),
+              Consumer(
+                builder: (context, ref, child) => ElevatedButton(
+                  onPressed: () {
+                    ref
+                        .read(authRepositoryProvider)
+                        .signup("testsss@test.com", "password");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(constraints.maxWidth * 0.25, 50),
+                  ),
+                  child: const Text("Sign in"),
                 ),
-                child: const Text("Sign in"),
-              )
+              ),
             ],
           ),
         ),
