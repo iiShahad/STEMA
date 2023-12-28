@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stema/core/common/input_with_label.dart';
+import 'package:stema/core/theme/pallete.dart';
+import 'package:stema/core/types/failure.dart';
 import 'package:stema/core/utils.dart';
 import 'package:stema/features/auth/controller/auth_controller.dart';
 
@@ -16,11 +18,25 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
   String username = "";
   String email = "";
   String password = "";
+  bool isloading = false;
+  String errorMessage = "";
 
-  void _submit() {
-    if (_formKey.currentState!.validate()) {
+  void _submit() async {
+    if (_formKey.currentState!.validate() && !isloading) {
       //on success validating
-      ref.read(authControllerProvider).signup(username, email, password);
+      setState(() {
+        isloading = true;
+      });
+      try {
+        await ref
+            .read(authControllerProvider)
+            .signup(username, email, password);
+      } on Failure catch (e) {
+        setState(() {
+          isloading = false;
+          errorMessage = e.message;
+        });
+      }
     }
   }
 
@@ -52,6 +68,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
               InputWithLabel(
                 label: "Password",
                 validator: passwordValidator,
+                obsecureText: true,
                 onChanged: (value) => setState(() {
                   password = value!;
                 }),
@@ -62,8 +79,23 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(constraints.maxWidth * 0.25, 50),
                 ),
-                child: const Text("Sign Up"),
-              )
+                child: isloading
+                    ? const SizedBox(
+                        width: 25,
+                        height: 25,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      )
+                    : const Text("Sign in"),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                errorMessage,
+                style: const TextStyle(
+                  color: Palette.error,
+                ),
+              ),
             ],
           ),
         ),

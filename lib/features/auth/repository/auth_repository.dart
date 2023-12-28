@@ -13,6 +13,8 @@ class AuthRepository {
   const AuthRepository({required SupabaseClient supabase})
       : _supabase = supabase;
 
+  Stream<AuthState> get authStateChange => _supabase.auth.onAuthStateChange;
+
   FutureEither<UserModel> signup(
       String email, String password, String username) async {
     try {
@@ -20,8 +22,10 @@ class AuthRepository {
           email: email, password: password, data: {"username": username});
       final currentUser = await getUserData(res.user!.id);
       return right(currentUser);
+    } on AuthException catch (e) {
+      return left(Failure(e.message));
     } catch (e) {
-      return left(Failure(e.toString()));
+      return left(Failure("Connection Error"));
     }
   }
 
@@ -33,8 +37,10 @@ class AuthRepository {
       );
       final currentUser = await getUserData(res.user!.id);
       return right(currentUser);
+    } on AuthException catch (e) {
+      return left(Failure(e.message));
     } catch (e) {
-      return left(Failure(e.toString()));
+      return left(Failure("Connection Error"));
     }
   }
 

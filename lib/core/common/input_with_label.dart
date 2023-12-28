@@ -5,12 +5,15 @@ import '../core.dart';
 class InputWithLabel extends StatelessWidget {
   final String? Function(String?) validator;
   final void Function(String?) onChanged;
+  final bool obsecureText;
   final String label;
-  const InputWithLabel(
-      {super.key,
-      required this.label,
-      required this.validator,
-      required this.onChanged});
+  const InputWithLabel({
+    super.key,
+    required this.label,
+    required this.validator,
+    required this.onChanged,
+    this.obsecureText = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +27,7 @@ class InputWithLabel extends StatelessWidget {
         TextFormField(
           validator: validator,
           onChanged: onChanged,
+          obscureText: obsecureText,
           cursorColor: Palette.dark_primaryColor,
         ),
       ],

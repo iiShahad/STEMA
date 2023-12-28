@@ -6,6 +6,7 @@ class Palette {
   static const dark_bg = Color(0xFF15181C);
   static const dark_surface = Color(0xFF212529);
   static const dark_primaryColor = Color(0xFF6F7BFF);
+  static const error = Colors.red;
   static const text_grey = Color(0xFF8C8C8C);
 
   static var darkModeAppTheme = ThemeData.dark().copyWith(
@@ -44,7 +45,7 @@ class Palette {
     ),
 
     // Error text style
-    errorStyle: const TextStyle(color: Colors.red),
+    errorStyle: const TextStyle(color: error),
 
     // Content padding
     contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
