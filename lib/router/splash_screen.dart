@@ -14,7 +14,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 3), () {
-      ref.read(initialLoadProvider.notifier).update((state) => true);
+      if (mounted) {
+        ref.read(initialLoadProvider.notifier).update((state) => true);
+      }
     });
     super.initState();
   }

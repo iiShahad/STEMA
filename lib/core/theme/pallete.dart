@@ -7,6 +7,7 @@ class Palette {
   static const dark_surface = Color(0xFF212529);
   static const dark_primaryColor = Color(0xFF6F7BFF);
   static const error = Colors.red;
+  static const onPrimary = Colors.white;
   static const text_grey = Color(0xFF8C8C8C);
 
   static var darkModeAppTheme = ThemeData.dark().copyWith(
