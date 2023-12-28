@@ -11,6 +11,7 @@ class UserModel with _$UserModel {
     required String id,
     required String? username,
     required String email,
+    // ignore: non_constant_identifier_names
     required String? avatar_url,
   }) = _UserModel;
 

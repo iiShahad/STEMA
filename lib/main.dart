@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stema/features/auth/controller/auth_controller.dart';
-import 'package:stema/router.dart';
+import 'package:stema/router/router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/core.dart';
 
@@ -23,7 +23,6 @@ class MyApp extends ConsumerWidget {
 
   void initializeUserData(WidgetRef ref, String id) async {
     final data = await ref.watch(authControllerProvider).getUserData(id);
-    print(data);
     ref.read(userProvider.notifier).update((state) => data);
   }
 
@@ -33,7 +32,6 @@ class MyApp extends ConsumerWidget {
     ref.watch(authStateChangeProvider).whenData(
       (data) {
         final id = data.session?.user.id;
-        print('session: ${id}');
         if (id != null && ref.read(userProvider) == null) {
           initializeUserData(ref, id);
         }
