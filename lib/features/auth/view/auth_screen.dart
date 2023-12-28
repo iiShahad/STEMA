@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:stema/features/auth/repository/auth_repository.dart';
+import 'package:stema/features/auth/controller/auth_controller.dart';
 import '/core/core.dart';
 import './widgets/auth_widgets.dart';
 
@@ -33,7 +33,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     builder: (context, ref, child) => Switcher(
                       isSignin: isSignin,
                       onTap: () {
-                        ref.read(authRepositoryProvider).signout();
+                        print(ref.read(userProvider).toString());
                         setState(() {
                           isSignin = !isSignin;
                         });
