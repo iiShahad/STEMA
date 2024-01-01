@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stema/features/auth/controller/auth_controller.dart';
+import 'package:stema/l10n/l10n.dart';
 import 'package:stema/router/router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/core.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +43,8 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       title: 'STEMA',
       theme: Palette.darkModeAppTheme,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: L10n.supportedLocales,
       routerConfig: ref.watch(routerProvider),
     );
   }

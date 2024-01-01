@@ -1,9 +1,12 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Palette {
   static const dark_bg = Color(0xFF15181C);
+  static const dark_topbar = Color(0xFF111316);
+  static const dark_border = Color(0xFF444649);
   static const dark_surface = Color(0xFF212529);
   static const dark_primaryColor = Color(0xFF6F7BFF);
   static const error = Colors.red;
@@ -11,6 +14,7 @@ class Palette {
   static const text_grey = Color(0xFF8C8C8C);
 
   static var darkModeAppTheme = ThemeData.dark().copyWith(
+    textTheme: GoogleFonts.montserratTextTheme(),
     scaffoldBackgroundColor: dark_bg,
     cardColor: dark_surface,
     splashColor: Colors.transparent,

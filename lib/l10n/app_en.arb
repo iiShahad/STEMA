@@ -1,0 +1,11 @@
+{
+  "signupTitle": "Sign Up",
+  "@signupTitle": {
+    "description": "Title for sign up screen"
+  },
+  "signinTitle": "Sign In",
+  "@signupTitle": {
+    "description": "Title for sign in screen"
+  }
+ 
+}

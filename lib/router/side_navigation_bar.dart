@@ -46,7 +46,7 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
       body: Row(
         children: [
           Container(
-            width: 80,
+            width: 60,
             decoration: const BoxDecoration(
               color: Palette.dark_surface,
             ),
