@@ -12,7 +12,9 @@ class GroupCard extends StatelessWidget {
       child: GestureDetector(
         onTap: () => onTap(),
         child: Container(
-          decoration: const BoxDecoration(color: Palette.dark_surface),
+          decoration: BoxDecoration(
+              color: Palette.dark_surface,
+              borderRadius: BorderRadius.circular(5)),
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
