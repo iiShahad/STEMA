@@ -2,17 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:stema/core/constants/screen_size_constants.dart';
 import 'package:stema/core/theme/pallete.dart';
 
-class LeftOverlay extends StatefulWidget {
+class LeftOverlay {
+  static late OverlayEntry entry;
+
+  static void showOverlay(
+      {required Widget content, required VoidCallback onPress}) {
+    entry = OverlayEntry(
+      builder: (context) => LeftOverlayBuilder(
+        overlayContent: content,
+        removeOverlay: () {
+          entry.remove();
+        },
+      ),
+    );
+    onPress();
+  }
+}
+
+class LeftOverlayBuilder extends StatefulWidget {
   final Widget overlayContent;
   final VoidCallback removeOverlay;
-  const LeftOverlay(
+  const LeftOverlayBuilder(
       {super.key, required this.overlayContent, required this.removeOverlay});
 
   @override
-  State<LeftOverlay> createState() => _LeftOverlayState();
+  State<LeftOverlayBuilder> createState() => _LeftOverlayBuilderState();
 }
 
-class _LeftOverlayState extends State<LeftOverlay>
+class _LeftOverlayBuilderState extends State<LeftOverlayBuilder>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   Curve curve = Curves.easeInOut;
@@ -41,15 +58,18 @@ class _LeftOverlayState extends State<LeftOverlay>
     return Stack(
       children: [
         //backdrop to hide overlay when clicking on it
-        GestureDetector(
-          onTap: () async {
-            _controller.reverse();
-            //this delay is to let the animation complete, then remove the overlay
-            await Future.delayed(duration);
-            widget.removeOverlay();
-          },
-          child: Container(
-            color: Palette.dark_bg.withOpacity(0.7),
+        MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () async {
+              _controller.reverse();
+              //this delay is to let the animation complete, then remove the overlay
+              await Future.delayed(duration);
+              widget.removeOverlay();
+            },
+            child: Container(
+              color: Palette.dark_bg.withOpacity(0.7),
+            ),
           ),
         ),
         AnimatedBuilder(
@@ -73,7 +93,10 @@ class _LeftOverlayState extends State<LeftOverlay>
               ),
               color: Palette.dark_surface,
             ),
-            child: widget.overlayContent,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+              child: widget.overlayContent,
+            ),
           ),
         ),
       ],

@@ -5,10 +5,12 @@ import '../core.dart';
 class InputWithLabel extends StatelessWidget {
   final String? Function(String?) validator;
   final void Function(String?) onChanged;
+  final Color? inputColor;
   final bool obsecureText;
   final String label;
   const InputWithLabel({
     super.key,
+    this.inputColor,
     required this.label,
     required this.validator,
     required this.onChanged,
@@ -29,6 +31,9 @@ class InputWithLabel extends StatelessWidget {
           onChanged: onChanged,
           obscureText: obsecureText,
           cursorColor: Palette.dark_primaryColor,
+          decoration: InputDecoration(
+            fillColor: inputColor,
+          ),
         ),
       ],
     );

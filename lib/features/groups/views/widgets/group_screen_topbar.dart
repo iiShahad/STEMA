@@ -1,31 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stema/core/common/left_overlay.dart';
 import 'package:stema/core/common/topbar.dart';
+import 'package:stema/features/groups/views/widgets/add_group_form.dart';
 
-class GroupScreenTopBar extends StatefulWidget {
+class GroupScreenTopBar extends StatelessWidget {
   const GroupScreenTopBar({super.key});
 
-  @override
-  State<GroupScreenTopBar> createState() => _GroupScreenTopBarState();
-}
-
-class _GroupScreenTopBarState extends State<GroupScreenTopBar> {
   //the variable declared here because we want to delete the overlay
-  late OverlayEntry _entry;
-
-  void _showOverlay() {
-    _entry = OverlayEntry(
-      builder: (context) => LeftOverlay(
-        overlayContent: const Placeholder(),
-        removeOverlay: () {
-          _entry.remove();
-        },
-      ),
-    );
-
-    Overlay.of(context).insert(_entry);
-  }
-
   @override
   Widget build(BuildContext context) {
     return TopBar(
@@ -33,14 +15,19 @@ class _GroupScreenTopBarState extends State<GroupScreenTopBar> {
         SizedBox(
           width: 70,
           height: 25,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(5)),
-            onPressed: () {
-              _showOverlay();
-            },
-            child: const Text(
-              "Add +",
-              style: TextStyle(fontSize: 12),
+          child: Consumer(
+            builder: (context, ref, child) => ElevatedButton(
+              style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(5)),
+              onPressed: () {
+                LeftOverlay.showOverlay(
+                  content: const AddGroupForm(),
+                  onPress: () => Overlay.of(context).insert(LeftOverlay.entry),
+                );
+              },
+              child: const Text(
+                "Add +",
+                style: TextStyle(fontSize: 12),
+              ),
             ),
           ),
         )

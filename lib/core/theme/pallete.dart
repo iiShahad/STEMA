@@ -14,7 +14,11 @@ class Palette {
   static const text_grey = Color(0xFF8C8C8C);
 
   static var darkModeAppTheme = ThemeData.dark().copyWith(
-    textTheme: GoogleFonts.montserratTextTheme(),
+    textTheme: GoogleFonts.montserratTextTheme().copyWith(
+      titleMedium: const TextStyle(color: onPrimary),
+      titleLarge: const TextStyle(color: onPrimary),
+      titleSmall: const TextStyle(color: onPrimary),
+    ),
     scaffoldBackgroundColor: dark_bg,
     cardColor: dark_surface,
     splashColor: Colors.transparent,
@@ -52,6 +56,13 @@ class Palette {
     // Error text style
     errorStyle: const TextStyle(color: error),
 
+    hintStyle: TextStyle(
+      color: onPrimary,
+    ),
+    labelStyle: TextStyle(
+      color: onPrimary,
+    ),
+
     // Content padding
     contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
   );
@@ -60,7 +71,7 @@ class Palette {
       ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: dark_primaryColor,
-      foregroundColor: Colors.white,
+      foregroundColor: onPrimary,
       minimumSize: const Size(double.infinity, 50),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),

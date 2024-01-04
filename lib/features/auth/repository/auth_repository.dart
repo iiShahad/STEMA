@@ -53,7 +53,10 @@ class AuthRepository {
   }
 
   Future<UserModel> getUserData(String userId) async {
-    final data = await _supabase.from('user').select().eq('id', userId);
+    final data = await _supabase
+        .from(SupabaseTables.userTable)
+        .select()
+        .eq('id', userId);
     final user = UserModel.fromJson(data[0]);
     return user;
   }

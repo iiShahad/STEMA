@@ -22,7 +22,8 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 mixin _$UserModel {
   String get id => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
+  String get email =>
+      throw _privateConstructorUsedError; // ignore: non_constant_identifier_names
   String? get avatar_url => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -144,6 +145,7 @@ class _$UserModelImpl implements _UserModel {
   final String? username;
   @override
   final String email;
+// ignore: non_constant_identifier_names
   @override
   final String? avatar_url;
 
@@ -199,7 +201,7 @@ abstract class _UserModel implements UserModel {
   String? get username;
   @override
   String get email;
-  @override
+  @override // ignore: non_constant_identifier_names
   String? get avatar_url;
   @override
   @JsonKey(ignore: true)
