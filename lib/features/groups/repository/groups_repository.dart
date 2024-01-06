@@ -110,4 +110,35 @@ class GroupsRepository {
       return left(Failure(e.toString()));
     }
   }
+
+  FutureVoid joinGroup(String invitationCode) async {
+    try {
+      final userId = _ref.watch(userProvider)!.id;
+      final groupTableData = await _supabase
+          .from(SupabaseTables.groupTable)
+          .select("id")
+          .eq("invitation_code", invitationCode)
+          .single();
+
+      final checkIfTheUserInTheGroup = await _supabase
+          .from(SupabaseTables.groupMemberTable)
+          .select()
+          .eq("group_id", groupTableData["id"])
+          .eq("user_id", userId);
+      if (checkIfTheUserInTheGroup.isEmpty) {
+        await _supabase
+            .from(SupabaseTables.groupMemberTable)
+            .insert({"group_id": groupTableData["id"], "user_id": userId});
+      } else {
+        throw Failure("You are already in this group");
+      }
+      return right(null);
+    } on PostgrestException catch (e) {
+      return left(Failure("Invalid Invitation Code"));
+    } on Failure catch (e) {
+      return left(e);
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 }

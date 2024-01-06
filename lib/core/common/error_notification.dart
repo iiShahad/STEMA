@@ -2,18 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:stema/core/core.dart';
 
 class ErrorNotification {
-  static late OverlayEntry entry;
+  static OverlayEntry? entry;
   static void showOverlay(
       {required VoidCallback onError, required String errorMessage}) {
+    //remove the previous notification if it is shown
+    _removeOverlay();
+    //assign the new notification object
     entry = OverlayEntry(
       builder: (context) => ErrorNotificationBuilder(
         errorMessage: errorMessage,
-        removeOverlay: () {
-          entry.remove();
-        },
+        removeOverlay: () => _removeOverlay(),
       ),
     );
     onError();
+  }
+
+  static void _removeOverlay() {
+    entry?.remove();
+    entry = null;
   }
 }
 
@@ -41,13 +47,29 @@ class _ErrorNotificationBuilderState extends State<ErrorNotificationBuilder>
     super.initState();
     _controller = AnimationController(vsync: this, duration: duration);
 
-    _controller.forward();
+    showOverlay();
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void showOverlay() async {
+    _controller.forward();
+    //show the notification for 5 seconds then remove it
+    await Future.delayed(const Duration(seconds: 5));
+    removeOverlay();
+  }
+
+//this method is to reverse the animation and remove the overlay
+  void removeOverlay() async {
+    if (mounted) {
+      _controller.reverse();
+      await Future.delayed(duration);
+      widget.removeOverlay();
+    }
   }
 
   @override
@@ -105,13 +127,11 @@ class _ErrorNotificationBuilderState extends State<ErrorNotificationBuilder>
                 style: const TextStyle(color: Palette.onPrimary, fontSize: 12),
               ),
             ),
-            const Spacer(),
+
             //Close button
             IconButton(
               onPressed: () async {
-                _controller.reverse();
-                await Future.delayed(duration);
-                widget.removeOverlay();
+                removeOverlay();
               },
               icon: const Icon(Icons.close),
               alignment: Alignment.center,

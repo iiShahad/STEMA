@@ -7,6 +7,7 @@ import 'package:stema/core/common/left_overlay.dart';
 import 'package:stema/core/core.dart';
 import 'package:stema/core/utils.dart';
 import 'package:stema/features/groups/controller/groups_controller.dart';
+import 'package:stema/features/groups/repository/groups_repository.dart';
 
 class AddGroupForm extends ConsumerStatefulWidget {
   const AddGroupForm({super.key});
@@ -17,16 +18,39 @@ class AddGroupForm extends ConsumerStatefulWidget {
 
 class _AddGroupFormState extends ConsumerState<AddGroupForm> {
   final _createFormKey = GlobalKey<FormState>();
+  final _joinFormKey = GlobalKey<FormState>();
   String title = "";
   String course = "";
+  String invitationCode = "";
+  bool isCreatingGroup = false;
 
   void _createGroupsubmition() {
     if (_createFormKey.currentState!.validate()) {
+      isCreatingGroup = true;
       ref.read(groupsControllerProvider.notifier).createGroup(
             title: title,
             course: course,
             onError: () {
-              Overlay.of(context).insert(ErrorNotification.entry);
+              //check if entry not null, if so, insert it to the overlay context
+              Overlay.of(context)
+                  .insert(ErrorNotification.entry ?? ErrorNotification.entry!);
+            },
+            onSuccess: () {
+              LeftOverlay.removeOverlay();
+            },
+          );
+    }
+  }
+
+  void _joinGroupSubmission() {
+    isCreatingGroup = false;
+    if (_joinFormKey.currentState!.validate()) {
+      ref.read(groupsControllerProvider.notifier).joinGroup(
+            invitationCode: invitationCode,
+            onError: () {
+              //check if entry not null, if so, insert it to the overlay context
+              Overlay.of(context)
+                  .insert(ErrorNotification.entry ?? ErrorNotification.entry!);
             },
             onSuccess: () {
               LeftOverlay.removeOverlay();
@@ -44,7 +68,6 @@ class _AddGroupFormState extends ConsumerState<AddGroupForm> {
         Form(
           key: _createFormKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _formTitle("Create New Group"),
               const SizedBox(height: 20),
@@ -70,15 +93,15 @@ class _AddGroupFormState extends ConsumerState<AddGroupForm> {
                 onPressed: () {
                   _createGroupsubmition();
                 },
-                child: groupsControllerStatus == false
-                    ? const Text("Create Group")
-                    : const SizedBox(
+                child: groupsControllerStatus == true && isCreatingGroup == true
+                    ? const SizedBox(
                         width: 25,
                         height: 25,
                         child: CircularProgressIndicator(
                           color: Colors.white,
                         ),
-                      ),
+                      )
+                    : const Text("Create Group"),
               ),
             ],
           ),
@@ -90,20 +113,32 @@ class _AddGroupFormState extends ConsumerState<AddGroupForm> {
         ),
         const SizedBox(height: 20),
         Form(
+          key: _joinFormKey,
           child: Column(
             children: [
               _formTitle("Join a Group"),
               const SizedBox(height: 20),
               InputWithLabel(
                 label: "Code",
-                validator: (val) {},
-                onChanged: (val) {},
+                validator: (val) => requiredValidatior(val),
+                onChanged: (val) {
+                  invitationCode = val!;
+                },
                 inputColor: Palette.dark_bg,
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {},
-                child: const Text("Join Group"),
+                onPressed: () => _joinGroupSubmission(),
+                child:
+                    groupsControllerStatus == true && isCreatingGroup == false
+                        ? const SizedBox(
+                            width: 25,
+                            height: 25,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Text("Join Group"),
               ),
             ],
           ),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:stema/core/core.dart';
+import 'package:stema/features/groups/models/group_model.dart';
 
 class GroupCard extends StatelessWidget {
   final VoidCallback onTap;
-  const GroupCard({super.key, required this.onTap});
+  final GroupModel data;
+  const GroupCard({super.key, required this.onTap, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +26,13 @@ class GroupCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      "Bla Bla Bla",
-                      style: TextStyle(color: Palette.onPrimary),
+                    Text(
+                      data.title,
+                      style: const TextStyle(
+                        color: Palette.onPrimary,
+                        fontSize: 23,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     IconButton(
                       onPressed: () {},
@@ -38,14 +44,19 @@ class GroupCard extends StatelessWidget {
                   height: 50,
                 ),
                 RichText(
-                  text: const TextSpan(
+                  text: TextSpan(
                     children: [
-                      TextSpan(
+                      const TextSpan(
                         text: "Course: ",
+                        style:
+                            TextStyle(color: Palette.text_grey, fontSize: 16),
                       ),
                       TextSpan(
-                        text: "DBMS",
-                        style: TextStyle(color: Palette.text_grey),
+                        text: data.course,
+                        style: const TextStyle(
+                          color: Palette.onPrimary,
+                          fontSize: 16,
+                        ),
                       )
                     ],
                   ),

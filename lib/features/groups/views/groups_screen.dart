@@ -32,6 +32,7 @@ class GroupsScreen extends ConsumerWidget {
                       ),
                       itemCount: data.length,
                       itemBuilder: (context, index) => GroupCard(
+                        data: data[index],
                         onTap: () {},
                       ),
                     );
@@ -43,7 +44,15 @@ class GroupsScreen extends ConsumerWidget {
                           const TextStyle(color: Colors.white, fontSize: 100),
                     );
                   },
-                  loading: () => const CircularProgressIndicator(),
+                  //TODO: change this ugly loading
+                  //TODO: Show empty screen
+                  loading: () => const Center(
+                    child: SizedBox(
+                      height: 150,
+                      width: 150,
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
                 ),
           ),
         ),

@@ -51,13 +51,41 @@ class GroupsController extends StateNotifier<bool> {
     final res = await _groupsRepository.createGroup(title, course);
     //TODO: delete delay
     await Future.delayed(const Duration(seconds: 2));
-    res.fold((l) {
-      state = false;
-      ErrorNotification.showOverlay(errorMessage: l.message, onError: onError);
-    }, (r) {
-      state = false;
-      onSuccess != null ? onSuccess() : () {};
-      _ref.read(groupsProvider.notifier).getUserGroups();
-    });
+    res.fold(
+      (l) {
+        state = false;
+        ErrorNotification.showOverlay(
+            errorMessage: l.message, onError: onError);
+      },
+      (r) {
+        state = false;
+        onSuccess != null ? onSuccess() : () {};
+        _ref.read(groupsProvider.notifier).getUserGroups();
+      },
+    );
+  }
+
+  Future joinGroup({
+    required String invitationCode,
+    required VoidCallback onError,
+    VoidCallback? onSuccess,
+  }) async {
+    //indicate loading
+    state = true;
+    final res = await _groupsRepository.joinGroup(invitationCode);
+    //TODO: delete delay
+    await Future.delayed(const Duration(seconds: 2));
+    res.fold(
+      (l) {
+        state = false;
+        ErrorNotification.showOverlay(
+            errorMessage: l.message, onError: onError);
+      },
+      (r) {
+        state = false;
+        onSuccess != null ? onSuccess() : () {};
+        _ref.read(groupsProvider.notifier).getUserGroups();
+      },
+    );
   }
 }
