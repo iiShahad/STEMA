@@ -18,9 +18,9 @@ String? passwordValidator(String? value) {
   return null;
 }
 
-String? usernameValidator(String? value) {
+String? requiredValidatior(String? value) {
   if (value == null || value.isEmpty) {
-    return 'Please enter a username';
+    return 'This field is required';
   }
   return null;
 }

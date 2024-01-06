@@ -15,9 +15,7 @@ class Palette {
 
   static var darkModeAppTheme = ThemeData.dark().copyWith(
     textTheme: GoogleFonts.montserratTextTheme().copyWith(
-      titleMedium: const TextStyle(color: onPrimary),
-      titleLarge: const TextStyle(color: onPrimary),
-      titleSmall: const TextStyle(color: onPrimary),
+      bodyLarge: GoogleFonts.montserrat(color: onPrimary),
     ),
     scaffoldBackgroundColor: dark_bg,
     cardColor: dark_surface,
@@ -55,13 +53,6 @@ class Palette {
 
     // Error text style
     errorStyle: const TextStyle(color: error),
-
-    hintStyle: TextStyle(
-      color: onPrimary,
-    ),
-    labelStyle: TextStyle(
-      color: onPrimary,
-    ),
 
     // Content padding
     contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),

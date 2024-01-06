@@ -2,28 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:stema/core/constants/screen_size_constants.dart';
 import 'package:stema/core/theme/pallete.dart';
 
+// this class is to manage the left overlay
 class LeftOverlay {
   static late OverlayEntry entry;
+  static final GlobalKey<_LeftOverlayBuilderState> _overlayKey =
+      GlobalKey<_LeftOverlayBuilderState>();
 
-  static void showOverlay(
-      {required Widget content, required VoidCallback onPress}) {
+  static void showOverlay({
+    required Widget content,
+    required VoidCallback insertOverlay,
+  }) {
     entry = OverlayEntry(
       builder: (context) => LeftOverlayBuilder(
+        key: _overlayKey,
         overlayContent: content,
         removeOverlay: () {
           entry.remove();
         },
       ),
     );
-    onPress();
+    insertOverlay();
+  }
+
+  static void removeOverlay() {
+    if (entry.mounted) {
+      _overlayKey.currentState?.removeOverlay();
+    }
   }
 }
 
+//this is the builder of animated left overlay
+//isSuccess: pass the provider listner, when it updates its value it will remove the overlay
+//removeOverlay: a function defined outside (defined in the manager class) to remove the entry
 class LeftOverlayBuilder extends StatefulWidget {
   final Widget overlayContent;
   final VoidCallback removeOverlay;
-  const LeftOverlayBuilder(
-      {super.key, required this.overlayContent, required this.removeOverlay});
+
+  const LeftOverlayBuilder({
+    super.key,
+    required this.overlayContent,
+    required this.removeOverlay,
+  });
 
   @override
   State<LeftOverlayBuilder> createState() => _LeftOverlayBuilderState();
@@ -47,6 +66,13 @@ class _LeftOverlayBuilderState extends State<LeftOverlayBuilder>
     _controller.forward();
   }
 
+  //this method os to remove the overlay and reverse the animation before removing it
+  void removeOverlay() async {
+    _controller.reverse();
+    await Future.delayed(duration);
+    widget.removeOverlay();
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -62,10 +88,7 @@ class _LeftOverlayBuilderState extends State<LeftOverlayBuilder>
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
             onTap: () async {
-              _controller.reverse();
-              //this delay is to let the animation complete, then remove the overlay
-              await Future.delayed(duration);
-              widget.removeOverlay();
+              removeOverlay();
             },
             child: Container(
               color: Palette.dark_bg.withOpacity(0.7),

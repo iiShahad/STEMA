@@ -1,5 +1,9 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
+// ignore: implementation_imports
 import 'package:flutter/src/rendering/sliver.dart';
+// ignore: implementation_imports
 import 'package:flutter/src/rendering/sliver_grid.dart';
 
 class SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight

@@ -1,65 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stema/core/common/SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight.dart';
-import 'package:stema/core/core.dart';
+import 'package:stema/core/constants/screen_size_constants.dart';
+import 'package:stema/features/groups/controller/groups_controller.dart';
 import 'package:stema/features/groups/views/widgets/group_card.dart';
 import 'package:stema/features/groups/views/widgets/group_screen_topbar.dart';
 
-class GroupsScreen extends StatelessWidget {
+class GroupsScreen extends ConsumerWidget {
   const GroupsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
         const GroupScreenTopBar(),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(20),
-            child: GridView(
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
-                crossAxisCount:
-                    MediaQuery.of(context).size.width < ScreenSizeConstants.lg
-                        ? 2
-                        : 3,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-                height: 200,
-              ),
-              children: [
-                GroupCard(
-                  onTap: () {
-                    context.pushNamed("GroupDetails");
+            child: ref.watch(groupsProvider).when(
+                  data: (data) {
+                    return GridView.builder(
+                      gridDelegate:
+                          SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
+                        crossAxisCount: MediaQuery.of(context).size.width <
+                                ScreenSizeConstants.lg
+                            ? 2
+                            : 3,
+                        crossAxisSpacing: 15,
+                        mainAxisSpacing: 15,
+                        height: 200,
+                      ),
+                      itemCount: data.length,
+                      itemBuilder: (context, index) => GroupCard(
+                        onTap: () {},
+                      ),
+                    );
                   },
-                ),
-                GroupCard(
-                  onTap: () {
-                    context.pushNamed("GroupDetails");
+                  error: (error, stackTrace) {
+                    return Text(
+                      error.toString(),
+                      style:
+                          const TextStyle(color: Colors.white, fontSize: 100),
+                    );
                   },
+                  loading: () => const CircularProgressIndicator(),
                 ),
-                GroupCard(
-                  onTap: () {
-                    context.pushNamed("GroupDetails");
-                  },
-                ),
-                GroupCard(
-                  onTap: () {
-                    context.pushNamed("GroupDetails");
-                  },
-                ),
-                GroupCard(
-                  onTap: () {
-                    context.pushNamed("GroupDetails");
-                  },
-                ),
-                GroupCard(
-                  onTap: () {
-                    context.pushNamed("GroupDetails");
-                  },
-                ),
-              ],
-            ),
           ),
         ),
       ],

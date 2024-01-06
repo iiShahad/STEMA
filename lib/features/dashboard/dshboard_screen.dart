@@ -11,7 +11,7 @@ class DashboardScreen extends ConsumerWidget {
     return Scaffold(
       body: Column(
         children: [
-          TopBar(),
+          const TopBar(),
           ElevatedButton(
               onPressed: () {
                 ref.read(authControllerProvider).signout();

@@ -22,7 +22,7 @@ class GroupsRepository {
       final userId = _ref.watch(userProvider)?.id;
       final groupTableData = await _supabase
           .from(SupabaseTables.groupTable)
-          .insert({title: title, course: course})
+          .insert({"title": title, "course": course})
           .select()
           .single();
       await _supabase
@@ -31,6 +31,12 @@ class GroupsRepository {
           .select()
           .single();
       return right(null);
+    } on PostgrestException catch (e) {
+      return left(
+        Failure(
+          e.message,
+        ),
+      );
     } catch (e) {
       return left(
         Failure(
@@ -76,7 +82,6 @@ class GroupsRepository {
           },
         );
       }
-
       return right(groups);
     } on Failure catch (e) {
       return left(e);

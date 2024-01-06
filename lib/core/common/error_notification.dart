@@ -33,8 +33,8 @@ class _ErrorNotificationBuilderState extends State<ErrorNotificationBuilder>
   late AnimationController _controller;
   Curve curve = Curves.easeOutCirc;
   Duration duration = const Duration(milliseconds: 500);
-  final notifWidth = 300.0;
-  final notifHeight = 50.0;
+  final notifWidth = 400.0;
+  final notifHeight = 60.0;
 
   @override
   void initState() {
@@ -97,9 +97,13 @@ class _ErrorNotificationBuilderState extends State<ErrorNotificationBuilder>
               width: 5,
             ),
             //Error message
-            Text(
-              widget.errorMessage,
-              style: const TextStyle(color: Palette.onPrimary),
+            Expanded(
+              child: Text(
+                widget.errorMessage,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: const TextStyle(color: Palette.onPrimary, fontSize: 12),
+              ),
             ),
             const Spacer(),
             //Close button

@@ -52,7 +52,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
             children: [
               InputWithLabel(
                 label: "Username",
-                validator: usernameValidator,
+                validator: requiredValidatior,
                 onChanged: (value) => setState(() {
                   username = value!;
                 }),

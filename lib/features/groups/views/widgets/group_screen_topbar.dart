@@ -7,7 +7,6 @@ import 'package:stema/features/groups/views/widgets/add_group_form.dart';
 class GroupScreenTopBar extends StatelessWidget {
   const GroupScreenTopBar({super.key});
 
-  //the variable declared here because we want to delete the overlay
   @override
   Widget build(BuildContext context) {
     return TopBar(
@@ -21,7 +20,8 @@ class GroupScreenTopBar extends StatelessWidget {
               onPressed: () {
                 LeftOverlay.showOverlay(
                   content: const AddGroupForm(),
-                  onPress: () => Overlay.of(context).insert(LeftOverlay.entry),
+                  insertOverlay: () =>
+                      Overlay.of(context).insert(LeftOverlay.entry),
                 );
               },
               child: const Text(

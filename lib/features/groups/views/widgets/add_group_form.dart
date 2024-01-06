@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stema/core/common/divider_with_text.dart';
+import 'package:stema/core/common/error_notification.dart';
 import 'package:stema/core/common/input_with_label.dart';
+import 'package:stema/core/common/left_overlay.dart';
 import 'package:stema/core/core.dart';
-import 'package:stema/features/groups/repository/groups_repository.dart';
+import 'package:stema/core/utils.dart';
+import 'package:stema/features/groups/controller/groups_controller.dart';
 
 class AddGroupForm extends ConsumerStatefulWidget {
   const AddGroupForm({super.key});
@@ -14,15 +17,28 @@ class AddGroupForm extends ConsumerStatefulWidget {
 
 class _AddGroupFormState extends ConsumerState<AddGroupForm> {
   final _createFormKey = GlobalKey<FormState>();
-  void _submit() {
+  String title = "";
+  String course = "";
+
+  void _createGroupsubmition() {
     if (_createFormKey.currentState!.validate()) {
-      // ref.read(groupsRepositoryProvider).createGroup("title", "course");
-      ref.read(groupsRepositoryProvider).getUserGroups();
+      ref.read(groupsControllerProvider.notifier).createGroup(
+            title: title,
+            course: course,
+            onError: () {
+              Overlay.of(context).insert(ErrorNotification.entry);
+            },
+            onSuccess: () {
+              LeftOverlay.removeOverlay();
+            },
+          );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final groupsControllerStatus = ref.watch(groupsControllerProvider);
+
     return Column(
       children: [
         Form(
@@ -34,23 +50,35 @@ class _AddGroupFormState extends ConsumerState<AddGroupForm> {
               const SizedBox(height: 20),
               InputWithLabel(
                 label: "Title",
-                validator: (val) {},
-                onChanged: (val) {},
+                validator: (val) => requiredValidatior(val),
+                onChanged: (val) {
+                  title = val!;
+                },
                 inputColor: Palette.dark_bg,
               ),
               const SizedBox(height: 10),
               InputWithLabel(
                 label: "Course",
-                validator: (val) {},
-                onChanged: (val) {},
+                validator: (val) => requiredValidatior(val),
+                onChanged: (val) {
+                  course = val!;
+                },
                 inputColor: Palette.dark_bg,
               ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  _submit();
+                  _createGroupsubmition();
                 },
-                child: const Text("Create Group"),
+                child: groupsControllerStatus == false
+                    ? const Text("Create Group")
+                    : const SizedBox(
+                        width: 25,
+                        height: 25,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      ),
               ),
             ],
           ),
@@ -74,7 +102,7 @@ class _AddGroupFormState extends ConsumerState<AddGroupForm> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {},
                 child: const Text("Join Group"),
               ),
             ],
