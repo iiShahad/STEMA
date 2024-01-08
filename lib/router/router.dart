@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:stema/features/groups/models/group_model.dart';
 import 'package:stema/features/groups/views/group_detail_screen.dart';
 import 'package:stema/features/groups/views/groups_screen.dart';
 import 'package:stema/router/side_navigation_bar.dart';
@@ -76,12 +77,16 @@ final routerProvider = Provider(
                 ),
                 routes: [
                   GoRoute(
-                    path: "GroupDetails",
-                    name: "GroupDetails",
-                    pageBuilder: (context, state) => const NoTransitionPage(
-                      child: GroupDetailsScreen(),
-                    ),
-                  )
+                      path: ':name',
+                      name: "GroupDetails",
+                      pageBuilder: (context, state) {
+                        final name = state.pathParameters['name']!;
+                        final groupModel = state.extra as GroupModel;
+                        return NoTransitionPage(
+                          child:
+                              GroupDetailsScreen(group: groupModel, name: name),
+                        );
+                      })
                 ],
               ),
             ],

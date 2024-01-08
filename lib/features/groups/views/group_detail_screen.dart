@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:stema/core/common/topbar.dart';
+import 'package:stema/features/groups/models/group_model.dart';
 
 class GroupDetailsScreen extends StatelessWidget {
-  const GroupDetailsScreen({super.key});
+  final String name;
+  final GroupModel group;
+  const GroupDetailsScreen(
+      {super.key, required this.group, required this.name});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Column(
-        children: [TopBar()],
+        children: [
+          TopBar(
+            pathArgument: name,
+          )
+        ],
       ),
     );
   }

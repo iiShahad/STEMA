@@ -6,6 +6,7 @@ import 'package:stema/router/router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/core.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +14,7 @@ void main() async {
     url: SupabaseConstants.url,
     anonKey: SupabaseConstants.anon,
   );
+  usePathUrlStrategy();
   runApp(
     const ProviderScope(
       child: MyApp(),

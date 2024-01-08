@@ -65,6 +65,7 @@ class GroupsController extends StateNotifier<bool> {
     );
   }
 
+  //TODO: test when joining group should be successful
   Future joinGroup({
     required String invitationCode,
     required VoidCallback onError,

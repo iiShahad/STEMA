@@ -4,8 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:stema/core/core.dart';
 
 class TopBar extends StatelessWidget {
+  final String? pathArgument;
   final List<Widget> actions;
-  const TopBar({super.key, this.actions = const []});
+  const TopBar({super.key, this.actions = const [], this.pathArgument});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class TopBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _getRoute(context),
+            _getRoute(context, pathArgument),
             Row(mainAxisSize: MainAxisSize.min, children: actions),
           ],
         ),
@@ -33,10 +34,14 @@ class TopBar extends StatelessWidget {
     );
   }
 
-  Widget _getRoute(BuildContext context) {
+  Widget _getRoute(BuildContext context, String? pathArgument) {
     String uri = GoRouterState.of(context).fullPath.toString();
     uri = uri.substring(1);
     final splitter = uri.split("/");
+    if (pathArgument != null) {
+      splitter.removeLast();
+      splitter.add(pathArgument);
+    }
     return RichText(
       text: TextSpan(
         children: [

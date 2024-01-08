@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stema/core/common/SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight.dart';
 import 'package:stema/core/constants/screen_size_constants.dart';
 import 'package:stema/features/groups/controller/groups_controller.dart';
@@ -33,7 +34,14 @@ class GroupsScreen extends ConsumerWidget {
                       itemCount: data.length,
                       itemBuilder: (context, index) => GroupCard(
                         data: data[index],
-                        onTap: () {},
+                        onTap: () {
+                          context.push(
+                              context.namedLocation(
+                                'GroupDetails',
+                                pathParameters: {'name': data[index].title},
+                              ),
+                              extra: data[index]);
+                        },
                       ),
                     );
                   },

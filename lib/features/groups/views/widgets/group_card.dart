@@ -23,22 +23,13 @@ class GroupCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      data.title,
-                      style: const TextStyle(
-                        color: Palette.onPrimary,
-                        fontSize: 23,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.more_horiz),
-                    )
-                  ],
+                Text(
+                  data.title,
+                  style: const TextStyle(
+                    color: Palette.onPrimary,
+                    fontSize: 23,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const SizedBox(
                   height: 50,
